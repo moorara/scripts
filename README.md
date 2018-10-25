@@ -1,6 +1,9 @@
 # Scripts
-This repo includes a set of useful scripts mainly written in [bash](https://www.gnu.org/software/bash).
+This repo includes a collection of useful scripts.
 
-| Script Path    | Purpose/Description                                                 |
-|----------------| ------------------------------------------------------------------- |
-| `bash/openssl` | Generating self-signed certificate chains using **openssl** command |
+| Script                      | Description                                                       |
+|-----------------------------| ----------------------------------------------------------------- |
+| `docker/install-docker.sh`  | Install **docker** and **docker-compose**                         |
+| `golang/build.sh`           | Compile and build binary with *version* information               |
+| `golang/test-unit-cover.sh` | Run unit tests and generate *coverage* report for all packages    | 
+| `openssl`                   | Generate self-signed certificate chains using **openssl** command |
