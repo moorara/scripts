@@ -19,7 +19,7 @@ nocolor='\033[0m'
 
 
 function ensure_command {
-  for cmd in $@; do
+  for cmd in "$@"; do
     which $cmd &> /dev/null || (
       printf "${red}$cmd not available!${nocolor}\n"
       exit 1
@@ -45,12 +45,12 @@ function process_args {
 function install_docker {
   printf "${blue}Installing docker ${release} ...${nocolor}\n"
 
-  os=$(uname -s | tr [:upper:] [:lower:])
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
   arch=$(uname -m)
   archive=./docker.tgz
   path=/usr/local/bin/
 
-  curl -fsSL https://download.docker.com/${os}/static/stable/${arch}/docker-${release}.tgz -o ${archive}
+  curl -fsSL "https://download.docker.com/${os}/static/stable/${arch}/docker-${release}.tgz" -o ${archive}
   tar -xz --strip-components=1 -C ${path} -f ${archive}
   rm ${archive}
 
@@ -59,5 +59,5 @@ function install_docker {
 
 
 ensure_command "grep" "tar" "curl"
-process_args
+process_args "$@"
 install_docker
