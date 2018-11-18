@@ -22,6 +22,8 @@ purple='\033[1;35m'
 blue='\033[1;36m'
 nocolor='\033[0m'
 
+version_file="VERSION"
+
 
 function whitelist_variable {
   if [[ ! $2 =~ (^|[[:space:]])$3($|[[:space:]]) ]]; then
