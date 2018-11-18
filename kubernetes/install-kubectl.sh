@@ -19,7 +19,7 @@ nocolor='\033[0m'
 
 
 function ensure_command {
-  for cmd in $@; do
+  for cmd in "$@"; do
     which $cmd &> /dev/null || (
       printf "${red}$cmd not available!${nocolor}\n"
       exit 1
@@ -47,7 +47,7 @@ function install_kubectl {
 
   file=/usr/local/bin/kubectl
 
-  curl -fsSL https://storage.googleapis.com/kubernetes-release/release/${release}/bin/linux/amd64/kubectl -o ${file}
+  curl -fsSL "https://storage.googleapis.com/kubernetes-release/release/${release}/bin/linux/amd64/kubectl" -o ${file}
   chmod +x ${file}
 
   printf " ${green}kubectl ${release} installed successfully!${nocolor}\n"
@@ -55,5 +55,5 @@ function install_kubectl {
 
 
 ensure_command "curl"
-process_args
+process_args "$@"
 install_kubectl

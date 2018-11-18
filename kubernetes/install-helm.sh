@@ -19,7 +19,7 @@ nocolor='\033[0m'
 
 
 function ensure_command {
-  for cmd in $@; do
+  for cmd in "$@"; do
     which $cmd &> /dev/null || (
       printf "${red}$cmd not available!${nocolor}\n"
       exit 1
@@ -50,7 +50,7 @@ function install_helm {
   tiller=linux-amd64/tiller
   path=/usr/local/bin/
 
-  curl -fsSL https://storage.googleapis.com/kubernetes-helm/helm-${release}-linux-amd64.tar.gz -o ${archive}
+  curl -fsSL "https://storage.googleapis.com/kubernetes-helm/helm-${release}-linux-amd64.tar.gz" -o ${archive}
   tar -xz --strip-components=1 -C ${path} -f ${archive} ${helm}
   tar -xz --strip-components=1 -C ${path} -f ${archive} ${tiller}
   rm ${archive}
@@ -60,5 +60,5 @@ function install_helm {
 
 
 ensure_command "curl"
-process_args
+process_args "$@"
 install_helm

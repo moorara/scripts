@@ -19,7 +19,7 @@ nocolor='\033[0m'
 
 
 function ensure_command {
-  for cmd in $@; do
+  for cmd in "$@"; do
     which $cmd &> /dev/null || (
       printf "${red}$cmd not available!${nocolor}\n"
       exit 1
@@ -49,7 +49,7 @@ function install_compose {
   arch=$(uname -m)
   file=/usr/local/bin/docker-compose
 
-  curl -fsSL https://github.com/docker/compose/releases/download/${release}/docker-compose-${os}-${arch} -o ${file}
+  curl -fsSL "https://github.com/docker/compose/releases/download/${release}/docker-compose-${os}-${arch}" -o ${file}
   chmod +x ${file}
 
   printf " ${green}docker-compose ${release} installed successfully!${nocolor}\n"
@@ -57,5 +57,5 @@ function install_compose {
 
 
 ensure_command "curl" "jq"
-process_args
+process_args "$@"
 install_compose
