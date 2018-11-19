@@ -50,7 +50,7 @@ function install_compose {
   file=/usr/local/bin/docker-compose
 
   curl -fsSL "https://github.com/docker/compose/releases/download/${release}/docker-compose-${os}-${arch}" -o ${file}
-  chmod +x ${file}
+  chmod 755 ${file}
 
   printf " ${green}docker-compose ${release} installed successfully!${nocolor}\n"
 }

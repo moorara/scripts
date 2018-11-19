@@ -48,7 +48,7 @@ function install_kubectl {
   file=/usr/local/bin/kubectl
 
   curl -fsSL "https://storage.googleapis.com/kubernetes-release/release/${release}/bin/linux/amd64/kubectl" -o ${file}
-  chmod +x ${file}
+  chmod 755 ${file}
 
   printf " ${green}kubectl ${release} installed successfully!${nocolor}\n"
 }
