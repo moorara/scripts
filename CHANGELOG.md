@@ -1,6 +1,23 @@
 # Change Log
 
-## [v0.1.0](https://github.com/moorara/scripts/tree/v0.1.0) (2018-11-17)
+## [v0.1.1](https://github.com/moorara/scripts/tree/v0.1.1) (2019-01-28)
+[Full Changelog](https://github.com/moorara/scripts/compare/v0.1.0...v0.1.1)
+
+**Implemented enhancements:**
+
+- Use GitHub Actions for Linting [\#17](https://github.com/moorara/scripts/issues/17)
+
+**Closed issues:**
+
+- Add community support [\#18](https://github.com/moorara/scripts/issues/18)
+
+**Merged pull requests:**
+
+- Refactoring [\#19](https://github.com/moorara/scripts/pull/19) ([moorara](https://github.com/moorara))
+- chmod 755 for exec [\#16](https://github.com/moorara/scripts/pull/16) ([moorara](https://github.com/moorara))
+- add linting check [\#13](https://github.com/moorara/scripts/pull/13) ([moorara](https://github.com/moorara))
+
+## [v0.1.0](https://github.com/moorara/scripts/tree/v0.1.0) (2018-11-18)
 **Merged pull requests:**
 
 - Fix release script [\#12](https://github.com/moorara/scripts/pull/12) ([moorara](https://github.com/moorara))
