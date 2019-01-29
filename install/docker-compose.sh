@@ -1,34 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 #
 # USAGE:
 #   ./install-compose.sh
-#   ./install-compose.sh -r 1.22.0
-#   ./install-compose.sh --release 1.22.0
+#   ./install-compose.sh -r 1.23.2
+#   ./install-compose.sh --release 1.23.2
 #
 
 set -euo pipefail
 
 
-red='\033[1;31m'
-green='\033[1;32m'
-yellow='\033[1;33m'
-purple='\033[1;35m'
-blue='\033[1;36m'
-nocolor='\033[0m'
-
-
-function ensure_command {
+ensure_command() {
   for cmd in "$@"; do
-    which $cmd &> /dev/null || (
-      printf "${red}$cmd not available!${nocolor}\n"
+    hash $cmd 2> /dev/null || (
+      echo "$cmd not available!"
       exit 1
     )
   done
 }
 
-function process_args {
-  while [[ $# > 0 ]]; do
+process_args() {
+  while [ $# -gt 1 ]; do
     key=$1
     case $key in
       -r|--release)
@@ -42,8 +34,8 @@ function process_args {
   release=${release:-$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r '.tag_name')}
 }
 
-function install_compose {
-  printf "${blue}Installing docker-compose ${release} ...${nocolor}\n"
+install_compose() {
+  echo "Installing docker-compose ${release} ..."
 
   os=$(uname -s)
   arch=$(uname -m)
@@ -52,7 +44,7 @@ function install_compose {
   curl -fsSL "https://github.com/docker/compose/releases/download/${release}/docker-compose-${os}-${arch}" -o ${file}
   chmod 755 ${file}
 
-  printf " ${green}docker-compose ${release} installed successfully!${nocolor}\n"
+  echo "docker-compose ${release} installed successfully!"
 }
 
 

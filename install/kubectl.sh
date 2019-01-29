@@ -1,34 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 #
 # USAGE:
 #   ./install-kubectl.sh
-#   ./install-kubectl.sh -r 1.12.1
-#   ./install-kubectl.sh --release 1.12.1
+#   ./install-kubectl.sh -r 1.13.2
+#   ./install-kubectl.sh --release 1.13.2
 #
 
 set -euo pipefail
 
 
-red='\033[1;31m'
-green='\033[1;32m'
-yellow='\033[1;33m'
-purple='\033[1;35m'
-blue='\033[1;36m'
-nocolor='\033[0m'
-
-
-function ensure_command {
+ensure_command() {
   for cmd in "$@"; do
-    which $cmd &> /dev/null || (
-      printf "${red}$cmd not available!${nocolor}\n"
+    hash $cmd 2> /dev/null || (
+      echo "$cmd not available!"
       exit 1
     )
   done
 }
 
-function process_args {
-  while [[ $# > 0 ]]; do
+process_args() {
+  while [ $# -gt 1 ]; do
     key=$1
     case $key in
       -r|--release)
@@ -42,15 +34,15 @@ function process_args {
   release=${release:-$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)}
 }
 
-function install_kubectl {
-  printf "${blue}Installing kubectl ${release} ...${nocolor}\n"
+install_kubectl() {
+  echo "Installing kubectl ${release} ..."
 
   file=/usr/local/bin/kubectl
 
   curl -fsSL "https://storage.googleapis.com/kubernetes-release/release/${release}/bin/linux/amd64/kubectl" -o ${file}
   chmod 755 ${file}
 
-  printf " ${green}kubectl ${release} installed successfully!${nocolor}\n"
+  echo "kubectl ${release} installed successfully!"
 }
 
 
