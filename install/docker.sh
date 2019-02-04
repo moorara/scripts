@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-docker.sh
-#   ./install-docker.sh -r 18.09.1-ce
-#   ./install-docker.sh --release 18.09.1-ce
+#   ./install-docker.sh -r 18.09.1
+#   ./install-docker.sh --release 18.09.1
 #
 
 set -euo pipefail
@@ -31,7 +31,7 @@ process_args() {
     shift
   done
 
-  release=${release:-$(curl -s https://download.docker.com/linux/static/stable/x86_64/ | grep -oe '[.0-9]*-ce' | tail -n 1)}
+  release=${release:-$(curl -s https://download.docker.com/linux/static/stable/x86_64/ | grep -oE '[.0-9]{2}\.[0-9]{2}\.[0-9](-ce)?' | tail -n 1)}
 }
 
 install_docker() {
