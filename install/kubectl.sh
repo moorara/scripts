@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-kubectl.sh
-#   ./install-kubectl.sh -r 1.13.2
-#   ./install-kubectl.sh --release 1.13.2
+#   ./install-kubectl.sh -r 1.13.4
+#   ./install-kubectl.sh --release 1.13.4
 #
 
 set -euo pipefail
@@ -37,9 +37,11 @@ process_args() {
 install_kubectl() {
   echo "Installing kubectl ${release} ..."
 
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  arch=amd64
   file=/usr/local/bin/kubectl
 
-  curl -fsSL "https://storage.googleapis.com/kubernetes-release/release/${release}/bin/linux/amd64/kubectl" -o ${file}
+  curl -fsSL "https://storage.googleapis.com/kubernetes-release/release/${release}/bin/${os}/${arch}/kubectl" -o ${file}
   chmod 755 ${file}
 
   echo "kubectl ${release} installed successfully!"

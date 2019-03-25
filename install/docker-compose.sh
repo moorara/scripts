@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-compose.sh
-#   ./install-compose.sh -r 1.23.2
-#   ./install-compose.sh --release 1.23.2
+#   ./install-compose.sh -r 1.24.0
+#   ./install-compose.sh --release 1.24.0
 #
 
 set -euo pipefail
