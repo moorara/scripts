@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-test-reporter.sh
-#   ./install-test-reporter.sh -r 0.6.3
-#   ./install-test-reporter.sh --release 0.6.3
+#   ./install-test-reporter.sh -r 0.6.4
+#   ./install-test-reporter.sh --release 0.6.4
 #
 
 set -euo pipefail

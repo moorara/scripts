@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-helm.sh
-#   ./install-helm.sh -r 2.12.3
-#   ./install-helm.sh --release 2.12.3
+#   ./install-helm.sh -r 2.13.0
+#   ./install-helm.sh --release 2.13.0
 #
 
 set -euo pipefail
@@ -37,14 +37,17 @@ process_args() {
 install_helm() {
   echo "Installing helm ${release} ..."
 
-  archive=./helm.tar.gz
-  helm=linux-amd64/helm
-  tiller=linux-amd64/tiller
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  arch=amd64
   path=/usr/local/bin/
 
-  curl -fsSL "https://storage.googleapis.com/kubernetes-helm/helm-${release}-linux-amd64.tar.gz" -o ${archive}
-  tar --strip-components=1 -C ${path} -xz -f ${archive} ${helm}
-  tar --strip-components=1 -C ${path} -xz -f ${archive} ${tiller}
+  archive=./helm.tar.gz
+  helm="${os}-${arch}/helm"
+  tiller="${os}-${arch}/tiller"
+
+  curl -fsSL "https://storage.googleapis.com/kubernetes-helm/helm-${release}-${os}-${arch}.tar.gz" -o ${archive}
+  tar --strip-components=1 -C ${path} -xz -f ${archive} "${helm}"
+  tar --strip-components=1 -C ${path} -xz -f ${archive} "${tiller}"
   rm ${archive}
 
   echo "helm ${release} installed successfully!"

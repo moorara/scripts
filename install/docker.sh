@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-docker.sh
-#   ./install-docker.sh -r 18.09.1
-#   ./install-docker.sh --release 18.09.1
+#   ./install-docker.sh -r 18.09.3
+#   ./install-docker.sh --release 18.09.3
 #
 
 set -euo pipefail
