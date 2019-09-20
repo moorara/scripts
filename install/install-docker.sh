@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-docker.sh
-#   ./install-docker.sh -r 18.09.3
-#   ./install-docker.sh --release 18.09.3
+#   ./install-docker.sh -r 18.09.4
+#   ./install-docker.sh --release 18.09.4
 #
 
 set -euo pipefail
@@ -37,8 +37,8 @@ process_args() {
 install_docker() {
   echo "Installing docker ${release} ..."
 
-  os=$(uname -s | tr '[:upper:]' '[:lower:]')
-  arch=$(uname -m)
+  os=linux
+  arch=x86_64
   archive=./docker.tgz
   path=/usr/local/bin/
 
@@ -50,6 +50,6 @@ install_docker() {
 }
 
 
-ensure_command "grep" "tar" "curl"
+ensure_command "curl"
 process_args "$@"
 install_docker

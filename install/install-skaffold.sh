@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-skaffold.sh
-#   ./install-skaffold.sh -r 0.24.0
-#   ./install-skaffold.sh --release 0.24.0
+#   ./install-skaffold.sh -r v0.26.0
+#   ./install-skaffold.sh --release v0.26.0
 #
 
 set -euo pipefail
@@ -48,6 +48,6 @@ install_skaffold() {
 }
 
 
-ensure_command "curl"
+ensure_command "curl" "jq"
 process_args "$@"
 install_skaffold
