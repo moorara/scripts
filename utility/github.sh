@@ -18,14 +18,14 @@ nocolor='\033[0m'
 function ensure_repo_clean {
   status=$(git status --porcelain | tail -n 1)
   if [[ -n $status ]]; then
-    printf "${red}Working direcrory is not clean.${nocolor}\n"
+    echo -e "${red}Working direcrory is not clean.${nocolor}"
     exit 1
   fi
 }
 
 function get_repo_name {
   if [ "$(git remote -v)" == "" ]; then
-    printf "${red}GitHub repo not fonud.${nocolor}\n"
+    echo -e "${red}GitHub repo not fonud.${nocolor}"
     exit 1
   fi
 
@@ -37,7 +37,7 @@ function get_repo_name {
 
 # GITHUB_TOKEN should be set
 function disable_master_protection {
-  printf "${yellow}Temporarily disabling master branch protection ...${nocolor}\n"
+  echo -e "${yellow}Temporarily disabling master branch protection ...${nocolor}"
   curl "https://api.github.com/repos/$repo_name/branches/master/protection/enforce_admins" \
     -s -o /dev/null \
     -X DELETE \
@@ -47,7 +47,7 @@ function disable_master_protection {
 
 # GITHUB_TOKEN should be set
 function enable_master_protection {
-  printf "${yellow}Re-enabling master branch protection ...${nocolor}\n"
+  echo -e "${yellow}Re-enabling master branch protection ...${nocolor}"
   curl "https://api.github.com/repos/$repo_name/branches/master/protection/enforce_admins" \
     -s -o /dev/null \
     -X POST \

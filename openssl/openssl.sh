@@ -45,7 +45,7 @@ function parse_args {
   root_path=
   cert_name=
 
-  while [[ $# > 1 ]]; do
+  while [[ $# -gt 1 ]]; do
     arg="$1"
     case $arg in
       -c|--cert)
@@ -94,19 +94,19 @@ function gen_root_ca {
   cd -
 
   # OpenSSL Configurations
-  printf "${green}Creating The Root OpenSSL Config File ...${nocolor}\n"
+  echo -e "${green}Creating The Root OpenSSL Config File ...${nocolor}"
   root_path_escaped=${root_path//\//\\\/}
-  sed "s/BASE_PATH/$root_path_escaped/g" openssl.root.cnf > $root_path/openssl.cnf
+  sed "s/BASE_PATH/$root_path_escaped/g" openssl.root.cnf > "$root_path/openssl.cnf"
 
   # Create Root Key
-  printf "${green}Creating The Root Key ...${nocolor}\n"
+  echo -e "${green}Creating The Root Key ...${nocolor}"
   openssl genrsa \
     -aes256 \
     -out "$root_path/private/ca.key.pem" 4096
   chmod 400 "$root_path/private/ca.key.pem"
 
   # Create Root Certificate
-  printf "${green}Creating The Root Certificate ...${nocolor}\n"
+  echo -e "${green}Creating The Root Certificate ...${nocolor}"
   openssl req \
     -config "$root_path/openssl.cnf" \
     -extensions v3_ca \
@@ -116,7 +116,7 @@ function gen_root_ca {
   chmod 444 "$root_path/certs/ca.cert.pem"
 
   # Verify Root Certificate
-  printf "${green}Verifying The Root Certificate ...${nocolor}\n"
+  echo -e "${green}Verifying The Root Certificate ...${nocolor}"
   openssl x509 \
     -noout -text \
     -in "$root_path/certs/ca.cert.pem"
@@ -137,19 +137,19 @@ function gen_intermediate_ca {
   cd -
 
   # OpenSSL Configurations
-  printf "${blue}Creating The Intermediate OpenSSL Config File ...${nocolor}\n"
+  echo -e "${blue}Creating The Intermediate OpenSSL Config File ...${nocolor}"
   intermediate_path_escaped=${root_path//\//\\\/}\\\/intermediate
-  sed "s/BASE_PATH/$intermediate_path_escaped/g" openssl.intermediate.cnf > $root_path/intermediate/openssl.cnf
+  sed "s/BASE_PATH/$intermediate_path_escaped/g" openssl.intermediate.cnf > "$root_path/intermediate/openssl.cnf"
 
   # Create Intermediate Key
-  printf "${blue}Creating The Intermediate Key ...${nocolor}\n"
+  echo -e "${blue}Creating The Intermediate Key ...${nocolor}"
   openssl genrsa \
     -aes256 \
     -out "$root_path/intermediate/private/intermediate.key.pem" 4096
   chmod 400 "$root_path/intermediate/private/intermediate.key.pem"
 
   # Create Intermediate CSR
-  printf "${blue}Creating The Intermediate Certificate Signing Request (CSR) ...${nocolor}\n"
+  echo -e "${blue}Creating The Intermediate Certificate Signing Request (CSR) ...${nocolor}"
   openssl req \
     -config "$root_path/intermediate/openssl.cnf" \
     -new -sha256 \
@@ -157,9 +157,9 @@ function gen_intermediate_ca {
     -out "$root_path/intermediate/csr/intermediate.csr.pem"
 
   # Sign Intermediate CSR
-  printf "${blue}Signing The Intermediate Certificate Request ...${nocolor}\n"
+  echo -e "${blue}Signing The Intermediate Certificate Request ...${nocolor}"
   openssl ca \
-    -config $root_path/openssl.cnf \
+    -config "$root_path/openssl.cnf" \
     -extensions v3_intermediate_ca \
     -days 3650 -notext -md sha256 \
     -in "$root_path/intermediate/csr/intermediate.csr.pem" \
@@ -167,12 +167,12 @@ function gen_intermediate_ca {
   chmod 444 "$root_path/intermediate/certs/intermediate.cert.pem"
 
   # Create Certificate Chain
-  printf "${blue}Creating The Certificate Chain File ...${nocolor}\n"
+  echo -e "${blue}Creating The Certificate Chain File ...${nocolor}"
   cat "$root_path/intermediate/certs/intermediate.cert.pem" "$root_path/certs/ca.cert.pem" > "$root_path/intermediate/certs/ca-chain.cert.pem"
   chmod 444 "$root_path/intermediate/certs/ca-chain.cert.pem"
 
   # Verify Intermediate Certificate
-  printf "${blue}Verifying The Intermediate Certificate ...${nocolor}\n"
+  echo -e "${blue}Verifying The Intermediate Certificate ...${nocolor}"
   openssl x509 \
     -noout -text \
     -in "$root_path/intermediate/certs/intermediate.cert.pem"
@@ -189,13 +189,13 @@ function gen_server_cert {
   cd -
 
   # Create Certificate Key
-  printf "${red}Creating The Certificate Key ...${nocolor}\n"
+  echo -e "${red}Creating The Certificate Key ...${nocolor}"
   openssl genrsa \
     -out "$root_path/intermediate/server/private/$cert_name.key.pem" 2048
   chmod 400 "$root_path/intermediate/server/private/$cert_name.key.pem"
 
   # Create Certificate CSR
-  printf "${red}Creating The Certificate Signing Request (CSR) ...${nocolor}\n"
+  echo -e "${red}Creating The Certificate Signing Request (CSR) ...${nocolor}"
   openssl req \
     -config "$root_path/intermediate/openssl.cnf" \
     -new -sha256 \
@@ -203,9 +203,9 @@ function gen_server_cert {
     -out "$root_path/intermediate/server/csr/$cert_name.csr.pem"
 
   # Sign Certificate CSR
-  printf "${red}Signing The Certificate Request ...${nocolor}\n"
+  echo -e "${red}Signing The Certificate Request ...${nocolor}"
   openssl ca \
-    -config $root_path/intermediate/openssl.cnf \
+    -config "$root_path/intermediate/openssl.cnf" \
     -extensions server_cert \
     -days 375 -notext -md sha256 \
     -in "$root_path/intermediate/server/csr/$cert_name.csr.pem" \
@@ -213,7 +213,7 @@ function gen_server_cert {
   chmod 444 "$root_path/intermediate/server/certs/$cert_name.cert.pem"
 
   # Verify Certificate
-  printf "${red}Verifying The Certificate ...${nocolor}\n"
+  echo -e "${red}Verifying The Certificate ...${nocolor}"
   openssl x509 \
     -noout -text \
     -in "$root_path/intermediate/server/certs/$cert_name.cert.pem"
@@ -230,13 +230,13 @@ function gen_user_cert {
   cd -
 
   # Create Certificate Key
-  printf "${yellow}Creating The Certificate Key ...${nocolor}\n"
+  echo -e "${yellow}Creating The Certificate Key ...${nocolor}"
   openssl genrsa \
     -out "$root_path/intermediate/user/private/$cert_name.key.pem" 2048
   chmod 400 "$root_path/intermediate/user/private/$cert_name.key.pem"
 
   # Create Certificate CSR
-  printf "${yellow}Creating The Certificate Signing Request (CSR) ...${nocolor}\n"
+  echo -e "${yellow}Creating The Certificate Signing Request (CSR) ...${nocolor}"
   openssl req \
     -config "$root_path/intermediate/openssl.cnf" \
     -new -sha256 \
@@ -244,7 +244,7 @@ function gen_user_cert {
     -out "$root_path/intermediate/user/csr/$cert_name.csr.pem"
 
   # Sign Certificate CSR
-  printf "${yellow}Signing The Certificate Request ...${nocolor}\n"
+  echo -e "${yellow}Signing The Certificate Request ...${nocolor}"
   openssl ca \
     -config "$root_path/intermediate/openssl.cnf" \
     -extensions user_cert \
@@ -254,7 +254,7 @@ function gen_user_cert {
   chmod 444 "$root_path/intermediate/user/certs/$cert_name.cert.pem"
 
   # Verify Certificate
-  printf "${yellow}Verifying The Certificate ...${nocolor}\n"
+  echo -e "${yellow}Verifying The Certificate ...${nocolor}"
   openssl x509 \
     -noout -text \
     -in "$root_path/intermediate/user/certs/$cert_name.cert.pem"
