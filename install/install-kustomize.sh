@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-kustomize.sh
-#   ./install-kustomize.sh -r 2.0.3
-#   ./install-kustomize.sh --release 2.0.3
+#   ./install-kustomize.sh -r v2.0.3
+#   ./install-kustomize.sh --release v2.0.3
 #
 
 set -euo pipefail
@@ -49,6 +49,6 @@ install_kustomize() {
 }
 
 
-ensure_command "curl"
+ensure_command "curl" "jq"
 process_args "$@"
 install_kustomize

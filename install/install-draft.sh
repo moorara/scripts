@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-draft.sh
-#   ./install-draft.sh -r 0.16.0
-#   ./install-draft.sh --release 0.16.0
+#   ./install-draft.sh -r v0.16.0
+#   ./install-draft.sh --release v0.16.0
 #
 
 set -euo pipefail
@@ -39,19 +39,18 @@ install_draft() {
 
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   arch=amd64
-  path=/usr/local/bin/
-
   archive=./draft.tar.gz
   draft="${os}-${arch}/draft"
+  path=/usr/local/bin/
 
   curl -fsSL "https://azuredraft.blob.core.windows.net/draft/draft-${release}-${os}-${arch}.tar.gz" -o ${archive}
-  tar --strip-components=1 -C ${path} -xz -f ${archive} "${draft}"
+  tar --strip-components=1 -C ${path} -xz -f ${archive} ${draft}
   rm ${archive}
 
   echo "draft ${release} installed successfully!"
 }
 
 
-ensure_command "curl"
+ensure_command "curl" "jq"
 process_args "$@"
 install_draft

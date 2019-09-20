@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-kubectl.sh
-#   ./install-kubectl.sh -r 1.13.4
-#   ./install-kubectl.sh --release 1.13.4
+#   ./install-kubectl.sh -r v1.14.0
+#   ./install-kubectl.sh --release v1.14.0
 #
 
 set -euo pipefail

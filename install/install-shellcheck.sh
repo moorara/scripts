@@ -42,14 +42,13 @@ install_shellcheck() {
 
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   arch=$(uname -m)
-
   archive=./shellcheck.tar.xz
   exec=shellcheck-$release/shellcheck
   path=/usr/local/bin/
 
   curl -fsSL "https://storage.googleapis.com/shellcheck/shellcheck-$release.$os.$arch.tar.xz" -o ${archive}
   tar --strip-components=1 -C ${path} --xz -xvf ${archive} "$exec"
-  rm -rf ${archive}
+  rm ${archive}
 
   echo "shellcheck ${release} installed successfully!"
 }

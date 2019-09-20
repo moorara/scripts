@@ -3,8 +3,8 @@
 #
 # USAGE:
 #   ./install-compose.sh
-#   ./install-compose.sh -r 1.24.0
-#   ./install-compose.sh --release 1.24.0
+#   ./install-compose.sh -r v1.24.0
+#   ./install-compose.sh --release v1.24.0
 #
 
 set -euo pipefail
@@ -34,11 +34,11 @@ process_args() {
   release=${release:-$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r '.tag_name')}
 }
 
-install_compose() {
+install_docker_compose() {
   echo "Installing docker-compose ${release} ..."
 
   os=$(uname -s)
-  arch=$(uname -m)
+  arch=x86_64
   file=/usr/local/bin/docker-compose
 
   curl -fsSL "https://github.com/docker/compose/releases/download/${release}/docker-compose-${os}-${arch}" -o ${file}
@@ -50,4 +50,4 @@ install_compose() {
 
 ensure_command "curl" "jq"
 process_args "$@"
-install_compose
+install_docker_compose

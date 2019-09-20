@@ -25,7 +25,7 @@ platforms="linux-386 linux-amd64 darwin-386 darwin-amd64 windows-386 windows-amd
 
 
 process_args() {
-  while [[ $# > 0 ]]; do
+  while [[ $# -gt 0 ]]; do
     key=$1
     case $key in
       -a|--all)
